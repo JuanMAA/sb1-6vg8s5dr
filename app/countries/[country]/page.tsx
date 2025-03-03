@@ -8,9 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import CasinoList from "@/components/casino-list";
 import BonusList from "@/components/bonus-list";
-import { getCountryByCode } from "@/lib/api";
+import { getCountries, getCountryByCode } from "@/lib/api";
 
-export default function CountryPage() {
+export default async function CountryPage() {
   const params = useParams();
   const countryCode = params.country as string;
   
@@ -148,4 +148,12 @@ export default function CountryPage() {
       </Tabs>
     </div>
   );
+}
+
+export async function generateStaticParams() {
+  const countries = await getCountries();
+
+  return countries.map(country => ({
+    country: country.code
+  }));
 }
