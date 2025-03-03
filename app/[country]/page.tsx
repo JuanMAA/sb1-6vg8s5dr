@@ -93,7 +93,7 @@ export default async function Country({
   const { featuredCasinoData } = await getFeaturedCasinoData(params.country);
 
   return (
-    <Hero countryData={countryData} featuredCasinoData={featuredCasinoData} translations={translations} />
+    <Hero countryData={countryData} featuredCasinoData={featuredCasinoData} />
   );
 }
 
