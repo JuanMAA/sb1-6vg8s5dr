@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 export default async function Home() {
   return (
     <div>
-      <Hero countryData={undefined} featuredCasinoData={undefined} />
+      {/*<Hero countryData={undefined} featuredCasinoData={undefined} />*/}
       <div className="container mx-auto px-4" hidden>
         <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 py-8">
           <div className="lg:col-span-2">
