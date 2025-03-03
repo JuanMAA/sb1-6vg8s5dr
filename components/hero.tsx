@@ -10,7 +10,7 @@ import BonusList from "./bonus-list";
 import { useEffect, useState } from "react";
 import { useLanguage } from "./language-context";
 
-export default function Hero({ countryData, featuredCasinoData }) {
+export default function Hero({ countryData, featuredCasinoData } : any) {
 
   const { t, setLanguage } = useLanguage();
   
