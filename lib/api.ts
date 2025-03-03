@@ -7,12 +7,11 @@ export async function getCasinos() {
       .from('casinos')
       .select('*')
       .order('rating', { ascending: false });
-    
     if (error) {
       console.error('Error fetching casinos:', error);
       return [];
     }
-    
+
     return data || [];
   } catch (err) {
     console.error('Error in getCasinos:', err);
@@ -32,12 +31,12 @@ export async function getCasinosByCountry(countryCode: string) {
       `)
       .eq('casino_countries.countries.code', countryCode)
       .order('rating', { ascending: false });
-    
+
     if (error) {
       console.error(`Error fetching casinos for country ${countryCode}:`, error);
       return [];
     }
-    
+
     return data || [];
   } catch (err) {
     console.error(`Error in getCasinosByCountry for ${countryCode}:`, err);
@@ -49,22 +48,22 @@ export async function getFeaturedCasino(countryCode?: string) {
   try {
     let query = supabase
       .from('casinos')
-      .select('*')
+      .select('*, casino_countries(countries!inner(code))')
       .eq('featured', true)
       .order('rating', { ascending: false })
       .limit(1);
-    
+
     if (countryCode && countryCode !== 'global') {
       query = query.eq('casino_countries.countries.code', countryCode);
     }
-    
+
     const { data, error } = await query;
-    
+
     if (error) {
       console.error('Error fetching featured casino:', error);
       return null;
     }
-    
+
     return data?.[0] || null;
   } catch (err) {
     console.error('Error in getFeaturedCasino:', err);
@@ -89,12 +88,12 @@ export async function getCasinoDetails(slug: string) {
       `)
       .eq('slug', slug)
       .single();
-    
+
     if (error) {
       console.error(`Error fetching casino details for ${slug}:`, error);
       return null;
     }
-    
+
     return data;
   } catch (err) {
     console.error(`Error in getCasinoDetails for ${slug}:`, err);
@@ -112,18 +111,18 @@ export async function getBonuses(type?: string) {
         casinos(*)
       `)
       .order('created_at', { ascending: false });
-    
+
     if (type && type !== 'all') {
       query = query.eq('bonus_type', type);
     }
-    
+
     const { data, error } = await query;
-    
+
     if (error) {
       console.error('Error fetching bonuses:', error);
       return [];
     }
-    
+
     return data || [];
   } catch (err) {
     console.error('Error in getBonuses:', err);
@@ -138,12 +137,12 @@ export async function getCountries() {
       .from('countries')
       .select('*')
       .order('name');
-    
+
     if (error) {
       console.error('Error fetching countries:', error);
       return [];
     }
-    
+
     return data || [];
   } catch (err) {
     console.error('Error in getCountries:', err);
@@ -158,12 +157,12 @@ export async function getCountryByCode(code: string) {
       .select('*')
       .eq('code', code)
       .single();
-    
+
     if (error) {
       console.error(`Error fetching country with code ${code}:`, error);
       return null;
     }
-    
+
     return data;
   } catch (err) {
     console.error(`Error in getCountryByCode for ${code}:`, err);
@@ -183,12 +182,12 @@ export async function getLicenses() {
         license_pros_cons(*)
       `)
       .order('trust_score', { ascending: false });
-    
+
     if (error) {
       console.error('Error fetching licenses:', error);
       return [];
     }
-    
+
     return data || [];
   } catch (err) {
     console.error('Error in getLicenses:', err);
@@ -208,12 +207,12 @@ export async function getLicenseById(id: string) {
       `)
       .eq('id', id)
       .single();
-    
+
     if (error) {
       console.error(`Error fetching license with id ${id}:`, error);
       return null;
     }
-    
+
     return data;
   } catch (err) {
     console.error(`Error in getLicenseById for ${id}:`, err);

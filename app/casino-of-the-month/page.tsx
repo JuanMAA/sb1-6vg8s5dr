@@ -8,7 +8,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Star, Award, Check, ExternalLink, Shield, Globe, Info, Zap, Percent, DollarSign } from "lucide-react";
+import { 
+  //Star, 
+  Award, Check, ExternalLink, Shield, Globe, Info, Zap, Percent, DollarSign } from "lucide-react";
 import { getFeaturedCasino } from "@/lib/api";
 
 // Countries for tabs

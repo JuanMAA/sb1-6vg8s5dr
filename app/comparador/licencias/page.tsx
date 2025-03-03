@@ -343,7 +343,7 @@ export default function LicenseComparadorPage() {
                     <div key={index} className="col-span-1">
                       {license && license.application_process && (
                         <ul className="space-y-1 text-sm">
-                          {license.application_process.map((step: any) => (
+                          {license.application_process?.map((step: any) => (
                             <li key={step.id} className="flex items-start">
                               <FileText className="h-4 w-4 text-primary mr-2 mt-0.5 flex-shrink-0" />
                               <span>{step.step}</span>

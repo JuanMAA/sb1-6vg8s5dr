@@ -1,4 +1,6 @@
 import type { Config } from 'tailwindcss';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 const config: Config = {
   darkMode: ['class'],

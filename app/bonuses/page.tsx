@@ -6,7 +6,7 @@ export default function BonusesPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Best Casino Bonuses</h1>
+        <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Best Casino Bonuses</h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
           Find the most generous casino bonuses and promotions currently available online. Filter by bonus type, wagering requirements, and more.
         </p>
