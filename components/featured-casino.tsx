@@ -40,7 +40,7 @@ export default function FeaturedCasino({ countryCode, casino, t }: FeaturedCasin
       <CardHeader className="pb-2 bg-gradient-to-r from-primary/5 to-accent/5">
         <div className="flex justify-between items-start">
           <div>
-            <Badge variant="outline" className="mb-2 bg-blue-100 text-primary text-xs">{t.by} {window?.location?.hostname}</Badge>
+            <Badge variant="outline" className="mb-2 bg-blue-100 text-primary text-xs">{t.by} {/*window?.location?.hostname*/}</Badge>
             <CardTitle className="text-xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{casino.name}</CardTitle>
             <CardDescription className="line-clamp-2 pb-8">{casino.description}</CardDescription>
           </div>

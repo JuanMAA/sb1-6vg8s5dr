@@ -203,7 +203,9 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   });
 
   useEffect(() => {
-    localStorage.setItem("preferredLanguage", language);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("preferredLanguage", language);
+    }
   }, [language]);
 
   // Traducciones dinámicas según el idioma seleccionado
