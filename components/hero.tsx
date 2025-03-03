@@ -46,19 +46,19 @@ export default function Hero({ countryData, featuredCasinoData } : any) {
             </div>
 
             <div className="grid grid-cols-4 gap-3 mt-6">
-              <div className="feature-card p-2 text-center card-hover">
+              <div className="feature-card p-2 text-center card-hover cursor-pointer">
                 <Globe className="h-6 w-6 mx-auto mb-1 text-primary" />
                 <h3 className="font-semibold text-sm">{t.home.global}</h3>
               </div>
-              <div className="feature-card p-2 text-center card-hover">
+              <div className="feature-card p-2 text-center card-hover cursor-pointer">
                 <Award className="h-6 w-6 mx-auto mb-1 text-primary" />
                 <h3 className="font-semibold text-sm">{t.home.reviews}</h3>
               </div>
-              <div className="feature-card p-2 text-center card-hover">
+              <div className="feature-card p-2 text-center card-hover cursor-pointer">
                 <DollarSign className="h-6 w-6 mx-auto mb-1 text-primary" />
                 <h3 className="font-semibold text-sm">{t.home.bonuses}</h3>
               </div>
-              <div className="feature-card p-2 text-center card-hover">
+              <div className="feature-card p-2 text-center card-hover cursor-pointer">
                 <Search className="h-6 w-6 mx-auto mb-1 text-primary" />
                 <h3 className="font-semibold text-sm">{t.home.comparisons}</h3>
               </div>

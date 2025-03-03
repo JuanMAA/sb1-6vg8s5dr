@@ -123,8 +123,7 @@ export default function Header() {
       <div className="flex h-16 items-center justify-between">
         <div className="flex items-center gap-2 px-5">
           <Link href="/" className="flex items-center space-x-2">
-            <Gamepad className="h-6 w-6 text-primary" />
-            <span className="text-2xl font-bold text-primary">Tu Apuesta</span>
+            <span className="text-2xl font-bold text-primary">{process.env.NEXT_PUBLIC_SITE_NAME}</span>
           </Link>
         </div>
 
