@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Gift, Percent, Coins, Zap, Copy, Check, Shield, Star } from "lucide-react";
-import { getBonuses } from "@/lib/api";
 
 type Bonus = {
   id: number;
@@ -33,7 +32,7 @@ type Bonus = {
 type BonusListProps = {
   type?: string;
   limit?: number;
-  bonusesData: Bonus[]
+  bonusesData: Bonus[];
 };
 
 export default function BonusList({ type = "all", bonusesData, limit }: BonusListProps) {
@@ -45,7 +44,7 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
 
   useEffect(() => {
     async function loadBonuses() {
-      try {        
+      try {
         if (limit) {
           setBonuses(bonusesData.slice(0, limit));
         } else {
@@ -56,72 +55,61 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
         setError("Failed to load bonuses. Please try again later.");
       }
     }
-    
+
     loadBonuses();
   }, [type, limit]);
 
-  // Apply filters whenever bonuses or search params change
   useEffect(() => {
     if (bonuses && bonuses?.length === 0) return;
-    
-    let filtered = [...bonuses ?? []];
-    
-    // Get filter values from URL
-    const wageringMin = searchParams.get('wageringMin');
-    const wageringMax = searchParams.get('wageringMax');
-    const depositMin = searchParams.get('depositMin');
-    const depositMax = searchParams.get('depositMax');
-    const isExclusive = searchParams.get('exclusive');
-    const casinos = searchParams.get('casinos');
-    
-    // Apply wagering requirement filter
+
+    let filtered = [...(bonuses ?? [])];
+
+    const wageringMin = searchParams.get("wageringMin");
+    const wageringMax = searchParams.get("wageringMax");
+    const depositMin = searchParams.get("depositMin");
+    const depositMax = searchParams.get("depositMax");
+    const isExclusive = searchParams.get("exclusive");
+    const casinos = searchParams.get("casinos");
+
     if (wageringMin) {
-      filtered = filtered.filter(bonus => 
-        bonus.wagering_requirement === null || 
-        bonus.wagering_requirement >= parseInt(wageringMin)
+      filtered = filtered.filter(
+        (bonus) => bonus.wagering_requirement === null || bonus.wagering_requirement >= parseInt(wageringMin)
       );
     }
-    
+
     if (wageringMax) {
-      filtered = filtered.filter(bonus => 
-        bonus.wagering_requirement === null || 
-        bonus.wagering_requirement <= parseInt(wageringMax)
+      filtered = filtered.filter(
+        (bonus) => bonus.wagering_requirement === null || bonus.wagering_requirement <= parseInt(wageringMax)
       );
     }
-    
-    // Apply minimum deposit filter
+
     if (depositMin) {
-      filtered = filtered.filter(bonus => 
-        bonus.min_deposit === null || 
-        bonus.min_deposit >= parseInt(depositMin)
+      filtered = filtered.filter(
+        (bonus) => bonus.min_deposit === null || bonus.min_deposit >= parseInt(depositMin)
       );
     }
-    
+
     if (depositMax) {
-      filtered = filtered.filter(bonus => 
-        bonus.min_deposit === null || 
-        bonus.min_deposit <= parseInt(depositMax)
+      filtered = filtered.filter(
+        (bonus) => bonus.min_deposit === null || bonus.min_deposit <= parseInt(depositMax)
       );
     }
-    
-    // Apply exclusive filter
-    if (isExclusive === 'true') {
-      filtered = filtered.filter(bonus => bonus.is_exclusive);
+
+    if (isExclusive === "true") {
+      filtered = filtered.filter((bonus) => bonus.is_exclusive);
     }
-    
-    // Apply casino filter
+
     if (casinos) {
-      const casinoIds = casinos.split(',').map(id => parseInt(id));
-      filtered = filtered.filter(bonus => casinoIds.includes(bonus.casino_id));
+      const casinoIds = casinos.split(",").map((id) => parseInt(id));
+      filtered = filtered.filter((bonus) => casinoIds.includes(bonus.casino_id));
     }
-    
+
     setFilteredBonuses(filtered);
   }, [bonuses, searchParams]);
 
-  // Copy bonus code to clipboard
   const copyBonusCode = (code: string) => {
     if (!code) return;
-    
+
     navigator.clipboard.writeText(code);
     setCopiedCode(code);
     setTimeout(() => setCopiedCode(null), 2000);
@@ -140,7 +128,6 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
     );
   }
 
-  // Get icon based on bonus type
   const getBonusIcon = (bonusType: string) => {
     switch (bonusType) {
       case "welcome":
@@ -157,7 +144,6 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
     }
   };
 
-  // Get badge class based on bonus type
   const getBonusBadgeClass = (bonusType: string) => {
     switch (bonusType) {
       case "welcome":
@@ -177,17 +163,17 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {filteredBonuses.map((bonus) => (
-        <Card key={bonus.id} className="overflow-hidden border modern-card animate-fade-in">
+        <Card key={bonus.id} className="overflow-hidden border modern-card animate-fade-in flex flex-col">
           <CardHeader className="pb-2 bg-gradient-to-r from-primary/5 to-accent/5">
             <div className="flex justify-between items-start">
               <div>
-                <CardTitle className="text-lg">{bonus.casinos.name}</CardTitle>
+                <CardTitle className="text-lg text-left">{bonus.casinos.name}</CardTitle>
                 <CardDescription className="flex items-center">
                   <div className="flex mr-2">
                     {[...Array(5)].map((_, i) => (
-                      <Star 
-                        key={i} 
-                        className={`h-3 w-3 ${i < Math.floor(bonus.casinos.rating) ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`} 
+                      <Star
+                        key={i}
+                        className={`h-3 w-3 ${i < Math.floor(bonus.casinos.rating) ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`}
                       />
                     ))}
                   </div>
@@ -201,29 +187,26 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
                   </Badge>
                 )}
                 <Badge variant="outline" className={getBonusBadgeClass(bonus.bonus_type)}>
-                  {bonus.bonus_type === "welcome" ? "Bienvenida" : 
-                   bonus.bonus_type === "no-deposit" ? "Sin Depósito" :
-                   bonus.bonus_type === "free-bets" ? "Apuestas Gratis" :
-                   bonus.bonus_type === "free-spins" ? "Giros Gratis" : "Devolución"}
+                  {bonus.bonus_type === "welcome" ? "Bienvenida" :
+                    bonus.bonus_type === "no-deposit" ? "Sin Depósito" :
+                      bonus.bonus_type === "free-bets" ? "Apuestas Gratis" :
+                        bonus.bonus_type === "free-spins" ? "Giros Gratis" : "Devolución"}
                 </Badge>
               </div>
             </div>
           </CardHeader>
-          
-          <CardContent className="pb-2">
+
+          <CardContent className="pb-2 flex-grow flex flex-col">
             <div className="relative w-full h-20 mb-4">
-              <Image 
-                src={bonus.casinos.logo_url}
-                alt={bonus.casinos.name}
-                fill
-                style={{ objectFit: "contain" }}
-              />
+              <Image src={bonus.casinos.logo_url} alt={bonus.casinos.name} fill style={{ objectFit: "contain" }} />
             </div>
-            
-            <div className="bg-primary/10 p-3 rounded-md mb-4">
-              <p className="text-center font-semibold">{bonus.description}</p>
+
+            <div className="bg-primary/10 p-3 rounded-md mb-4 flex-grow flex-col justify-center ">
+              <p className="flex items-center justify-center font-semibold">
+                {bonus.description}
+              </p>
             </div>
-            
+
             {bonus.bonus_code && (
               <div className="flex items-center justify-between mb-4">
                 <div className="text-sm">
@@ -233,9 +216,9 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
                   <code className="bg-muted px-2 py-1 rounded text-sm font-mono mr-2">
                     {bonus.bonus_code}
                   </code>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
+                  <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={() => copyBonusCode(bonus.bonus_code || "")}
                     className="h-8 w-8"
                   >
@@ -244,7 +227,7 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
                 </div>
               </div>
             )}
-            
+
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div>
                 <p className="text-muted-foreground">Requisito de Apuesta:</p>
@@ -256,8 +239,8 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
               </div>
             </div>
           </CardContent>
-          
-          <CardFooter>
+
+          <CardFooter className="mt-auto">
             <Button asChild className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
               <Link href={bonus.casinos.website_url} target="_blank" rel="noopener noreferrer">
                 Reclamar Bono <ExternalLink className="ml-2 h-4 w-4" />
