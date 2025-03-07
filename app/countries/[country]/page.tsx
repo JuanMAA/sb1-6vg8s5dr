@@ -120,10 +120,10 @@ export default async function CountryPage({
           <TabsTrigger value="bonuses">Best Bonuses in {countryData.name}</TabsTrigger>
         </TabsList>
         <TabsContent value="casinos" className="mt-6">
-          <CasinoList countryCode={countryData.code} />
+          <CasinoList countryCode={countryData.code} casinosByCountryData={[]} />
         </TabsContent>
         <TabsContent value="bonuses" className="mt-6">
-          <BonusList />
+          <BonusList bonusesData={[]} />
         </TabsContent>
       </Tabs>
     </div>
