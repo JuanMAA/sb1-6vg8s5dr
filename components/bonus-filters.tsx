@@ -370,7 +370,7 @@ export default function BonusFilters({ type, casinosData }: BonusFiltersProps) {
                 <div>
                   <h3 className="text-sm font-medium mb-2">Casinos</h3>
                   <div className="grid grid-cols-2 gap-2 max-h-[180px] overflow-y-auto pr-2">
-                    {casinosData?.map(casino => (
+                    {casinosData?.map((casino: any) => (
                       <div key={casino.id} className="flex items-center space-x-2">
                         <Checkbox
                           id={`casino-${casino.id}`}
