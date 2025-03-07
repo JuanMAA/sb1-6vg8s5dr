@@ -10,13 +10,16 @@ import BonusList from "./bonus-list";
 import { useEffect, useState } from "react";
 import { useLanguage } from "./language-context";
 
-export default function Hero({ countryData, featuredCasinoData } : any) {
+export default function Hero({ countryData, countriesData, featuredCasinoData }: any) {
+  const { t, setLanguage, setCountries } = useLanguage();
 
-  const { t, setLanguage } = useLanguage();
-  
   useEffect(() => {
-    setLanguage(countryData?.default_language)
+    setLanguage(countryData?.default_language);
   }, [countryData]);
+
+  useEffect(() => {
+    setCountries(countriesData);
+  }, []);
 
   return (
     <div className="relative py-12 md:py-20 overflow-hidden hero-gradient">
@@ -66,7 +69,7 @@ export default function Hero({ countryData, featuredCasinoData } : any) {
           </div>
 
           <div className="flex items-center justify-center">
-            <FeaturedCasino casino={featuredCasinoData} t={t.featuredCasino}/>
+            <FeaturedCasino casino={featuredCasinoData} t={t.featuredCasino} />
           </div>
         </div>
       </div>
@@ -76,26 +79,45 @@ export default function Hero({ countryData, featuredCasinoData } : any) {
         <div className="absolute bottom-10 right-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl"></div>
       </div>
 
-      <section className="py-12 container mx-auto">
-        <div className="text-center mb-6 animate-fade-in">
-          <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t.home.rankings}</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-sm mb-7">
-            {t.home.subtitle}
-          </p>
+      <Separator className="mx-auto max-w-5xl border-t border-gray-300 dark:border-gray-600 my-14" />
 
-          <CasinoList limit={3} />
+      <section className="container mx-auto from-primary/5 to-accent/5">
+        <div className="container">
+          <div className="text-center mb-6 animate-fade-in">
+            <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Casas de Apuestas Mejor Clasificadas</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
+              Nuestros expertos han revisado cientos de casas de apuestas para ofrecerte las mejores opciones disponibles.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Featured Casino (First Place) */}
+            <div>
+              <h3 className="text-xl font-bold mb-4 flex items-center">
+                <span className="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center mr-2">1</span>
+                Top Casino Recomendado
+              </h3>
+              <CasinoList limit={1} displayStyle="featured" />
+            </div>
+
+            {/* Top 4 Casinos */}
+            <div>
+              <h3 className="text-xl font-bold mb-4">Otros Casinos Destacados</h3>
+              <CasinoList limit={4} skip={1} displayStyle="compact" />
+            </div>
+          </div>
 
           <div className="text-center mt-6">
             <a href="/rankings" className="text-primary hover:text-primary/80 transition-colors">
-              {t.home.rankings} →
+              Ver todas las casas de apuestas →
             </a>
           </div>
         </div>
       </section>
 
-      <Separator className="max-w-5xl mx-auto" />
+      <Separator className="mx-auto max-w-5xl border-t border-gray-300 dark:border-gray-600 my-14" />
 
-      <section className="py-10 container mx-auto from-primary/5 to-accent/5">
+      <section className="container mx-auto from-primary/5 to-accent/5">
         <div className="text-center mb-4 animate-fade-in">
           <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t.home.bonuses}</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-sm mb-7">

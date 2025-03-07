@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { 
+import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
@@ -19,8 +19,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Moon, Sun, Menu, X, Globe, Target, Award, DollarSign, Scale, Contact, BarChart2, Gamepad } from "lucide-react";
-import { useLanguage } from "./language-context";
+import { Moon, Sun, Menu, X, Globe, Target, Award, DollarSign, Scale, Contact, BarChart2, Search } from "lucide-react";
 
 const languages = [
   { code: "es", name: "Español", flag: "🇪🇸" },
@@ -44,7 +43,8 @@ const translations = {
     casinoOfTheMonth: "Casino of the Month",
     comparators: "Comparators",
     casinoComparator: "Casino Comparator",
-    licenseComparator: "License Comparator"
+    licenseComparator: "License Comparator",
+    searchCountry: "Search country..."
   },
   es: {
     home: "Inicio",
@@ -60,7 +60,8 @@ const translations = {
     casinoOfTheMonth: "Casino del Mes",
     comparators: "Comparadores",
     casinoComparator: "Comparador de Casinos",
-    licenseComparator: "Comparador de Licencias"
+    licenseComparator: "Comparador de Licencias",
+    searchCountry: "Buscar país..."
   },
   fr: {
     home: "Accueil",
@@ -76,7 +77,8 @@ const translations = {
     casinoOfTheMonth: "Casino du Mois",
     comparators: "Comparateurs",
     casinoComparator: "Comparateur de Casinos",
-    licenseComparator: "Comparateur de Licences"
+    licenseComparator: "Comparateur de Licences",
+    searchCountry: "Rechercher un pays..."
   },
   de: {
     home: "Startseite",
@@ -92,38 +94,70 @@ const translations = {
     casinoOfTheMonth: "Casino des Monats",
     comparators: "Vergleicher",
     casinoComparator: "Casino-Vergleicher",
-    licenseComparator: "Lizenz-Vergleicher"
+    licenseComparator: "Lizenz-Vergleicher",
+    searchCountry: "Land suchen..."
   }
 };
 
 // Updated country data with correct URL keys that match the countryData object in the country page
 const countryLinks = [
-  { name: "España", code: "espana" },
-  { name: "Estados Unidos", code: "us" },
-  { name: "Reino Unido", code: "uk" },
-  { name: "México", code: "mexico" },
-  { name: "Argentina", code: "argentina" },
-  { name: "Colombia", code: "colombia" },
-  { name: "Chile", code: "chile" },
-  { name: "Perú", code: "peru" }
+  { name: "España", code: "espana", flag: "🇪🇸" },
+  { name: "Estados Unidos", code: "us", flag: "🇺🇸" },
+  { name: "Reino Unido", code: "uk", flag: "🇬🇧" },
+  { name: "México", code: "mexico", flag: "🇲🇽" },
+  { name: "Argentina", code: "argentina", flag: "🇦🇷" },
+  { name: "Colombia", code: "colombia", flag: "🇨🇴" },
+  { name: "Chile", code: "chile", flag: "🇨🇱" },
+  { name: "Perú", code: "peru", flag: "🇵🇪" }
 ];
 
 export default function Header() {
   const { setTheme, theme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState("es");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isCountryMenuOpen, setIsCountryMenuOpen] = useState(false);
+  const countryMenuRef = useRef<HTMLDivElement>(null);
+
+  const t = translations[currentLanguage as keyof typeof translations];
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const { t, setLanguage, language } = useLanguage();
+  const changeLanguage = (langCode: string) => {
+    setCurrentLanguage(langCode);
+    // In a real app, you would implement language switching logic here
+    localStorage.setItem('preferredLanguage', langCode);
+  };
+
+  // Filter countries based on search term
+  const filteredCountries = countryLinks.filter(country =>
+    country.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Close country menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (countryMenuRef.current && !countryMenuRef.current.contains(event.target as Node)) {
+        setIsCountryMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center justify-between">
-        <div className="flex items-center gap-2 px-5">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-2 pl-5">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-primary">{process.env.NEXT_PUBLIC_SITE_NAME}</span>
+            <span className="text-2xl font-bold text-primary">
+              {process.env.NEXT_PUBLIC_SITE_NAME}
+            </span>
           </Link>
         </div>
 
@@ -134,31 +168,63 @@ export default function Header() {
               <NavigationMenuItem>
                 <Link href="/" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {t.header.home}
+                    {t.home}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuTrigger>{t.header.countries}</NavigationMenuTrigger>
+                <NavigationMenuTrigger
+                  onClick={() => setIsCountryMenuOpen(true)}
+                  className="flex items-center"
+                >
+                  <Globe className="mr-1 h-4 w-4" />
+                  {t.countries}
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                    {countryLinks.map((country) => (
-                      <li key={country.name}>
-                        <Link href={`/countries/${country.code}`} legacyBehavior passHref>
-                          <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            {country.name}
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <div ref={countryMenuRef} className="w-[400px] p-4 md:w-[500px] lg:w-[600px]">
+                    <div className="mb-4 relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                      <input
+                        type="text"
+                        placeholder={t.searchCountry}
+                        className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                    </div>
+                    <ul className="grid grid-cols-2 gap-3">
+                      {filteredCountries.length > 0 ? (
+                        filteredCountries.map((country) => (
+                          <li key={country.code}>
+                            <Link
+                              href={`/countries/${country.code}`}
+                              legacyBehavior
+                              passHref
+                              onClick={() => setIsCountryMenuOpen(false)}
+                            >
+                              <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                                <div className="flex items-center">
+                                  <span className="mr-2 text-xl">{country.flag}</span>
+                                  <span>{country.name}</span>
+                                </div>
+                              </NavigationMenuLink>
+                            </Link>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="col-span-2 text-center py-4 text-muted-foreground">
+                          No se encontraron países que coincidan con "{searchTerm}"
+                        </li>
+                      )}
+                    </ul>
+                  </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/rankings" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Award className="mr-1 h-4 w-4" />
-                    {t.header.rankings}
+                    {t.rankings}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -166,55 +232,55 @@ export default function Header() {
                 <Link href="/bonuses" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <DollarSign className="mr-1 h-4 w-4" />
-                    {t.header.bonuses}
+                    {t.bonuses}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <BarChart2 className="mr-1 h-4 w-4" />
-                  {t.header.comparators}
+                  {t.comparators}
                 </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4">
-                      <li>
-                        <Link href="/casino-of-the-month" legacyBehavior passHref>
-                          <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">{t.header.casinoOfTheMonth}</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Casinos destacados por país con análisis detallados
-                            </p>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/comparador/casinos" legacyBehavior passHref>
-                          <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">{t.header.casinoComparator}</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Compara características, bonos y más entre diferentes casinos
-                            </p>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href="/comparador/licencias" legacyBehavior passHref>
-                          <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                            <div className="text-sm font-medium leading-none">{t.header.licenseComparator}</div>
-                            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                              Compara autoridades reguladoras y sus requisitos
-                            </p>
-                          </NavigationMenuLink>
-                        </Link>
-                      </li>
-                    </ul>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4">
+                    <li>
+                      <Link href="/casino-of-the-month" legacyBehavior passHref>
+                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">{t.casinoOfTheMonth}</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Casinos destacados por país con análisis detallados
+                          </p>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/comparador/casinos" legacyBehavior passHref>
+                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">{t.casinoComparator}</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Compara características, bonos y más entre diferentes casinos
+                          </p>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/comparador/licencias" legacyBehavior passHref>
+                        <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">{t.licenseComparator}</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Compara autoridades reguladoras y sus requisitos
+                          </p>
+                        </NavigationMenuLink>
+                      </Link>
+                    </li>
+                  </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link href="/legal-info" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Scale className="mr-1 h-4 w-4" />
-                    {t.header.legalInfo}
+                    {t.legalInfo}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -222,7 +288,7 @@ export default function Header() {
                 <Link href="/contact" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Contact className="mr-1 h-4 w-4" />
-                    {t.header.contact}
+                    {t.contact}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -233,15 +299,15 @@ export default function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="ml-2">
                 <Globe className="h-5 w-5" />
-                <span className="sr-only">{t.header.language}</span>
+                <span className="sr-only">{t.language}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {languages.map((lang) => (
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   key={lang.code}
-                  onClick={() => setLanguage(lang.code)}
-                  className={`flex items-center ${language === lang.code ? "bg-accent text-accent-foreground" : ""}`}
+                  onClick={() => changeLanguage(lang.code)}
+                  className={`flex items-center ${currentLanguage === lang.code ? "bg-accent text-accent-foreground" : ""}`}
                 >
                   <span className="mr-2">{lang.flag}</span>
                   {lang.name}
@@ -260,11 +326,11 @@ export default function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 <Sun className="mr-2 h-4 w-4" />
-                {t.header.lightMode}
+                {t.lightMode}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 <Moon className="mr-2 h-4 w-4" />
-                {t.header.darkMode}
+                {t.darkMode}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -284,56 +350,89 @@ export default function Header() {
           <div className="space-y-1 px-4 pb-3 pt-2">
             <Link href="/" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Target className="mr-2 h-5 w-5 text-primary" />
-              {t.header.home}
+              {t.home}
             </Link>
-            <Link href="/countries" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
-              <Globe className="mr-2 h-5 w-5 text-primary" />
-              {t.header.countries}
-            </Link>
+
+            {/* Mobile Countries Dropdown */}
+            <div className="py-2">
+              <div className="flex items-center text-base font-medium mb-2">
+                <Globe className="mr-2 h-5 w-5 text-primary" />
+                {t.countries}
+              </div>
+              <div className="ml-7 mb-2">
+                <input
+                  type="text"
+                  placeholder={t.searchCountry}
+                  className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+              <div className="ml-7 grid grid-cols-2 gap-2 max-h-60 overflow-y-auto">
+                {filteredCountries.length > 0 ? (
+                  filteredCountries.map((country) => (
+                    <Link
+                      key={country.code}
+                      href={`/countries/${country.code}`}
+                      className="flex items-center py-1 px-2 rounded-md hover:bg-accent"
+                      onClick={toggleMobileMenu}
+                    >
+                      <span className="mr-2">{country.flag}</span>
+                      <span className="text-sm">{country.name}</span>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="col-span-2 text-center py-2 text-muted-foreground text-sm">
+                    No se encontraron países
+                  </div>
+                )}
+              </div>
+            </div>
+
             <Link href="/rankings" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Award className="mr-2 h-5 w-5 text-primary" />
-              {t.header.rankings}
+              {t.rankings}
             </Link>
             <Link href="/bonuses" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <DollarSign className="mr-2 h-5 w-5 text-primary" />
-              {t.header.bonuses}
+              {t.bonuses}
             </Link>
             <Link href="/casino-of-the-month" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Award className="mr-2 h-5 w-5 text-primary" />
-              {t.header.casinoOfTheMonth}
+              {t.casinoOfTheMonth}
             </Link>
             <Link href="/comparador/casinos" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <BarChart2 className="mr-2 h-5 w-5 text-primary" />
-              {t.header.casinoComparator}
+              {t.casinoComparator}
             </Link>
             <Link href="/comparador/licencias" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Scale className="mr-2 h-5 w-5 text-primary" />
-              {t.header.licenseComparator}
+              {t.licenseComparator}
             </Link>
             <Link href="/legal-info" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Scale className="mr-2 h-5 w-5 text-primary" />
-              {t.header.legalInfo}
+              {t.legalInfo}
             </Link>
             <Link href="/contact" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Contact className="mr-2 h-5 w-5 text-primary" />
-              {t.header.contact}
+              {t.contact}
             </Link>
-            
+
             <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center px-4">
                 <div className="flex-shrink-0">
                   <Button variant="outline" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
                     {theme === "dark" ? <Sun className="h-4 w-4 mr-2" /> : <Moon className="h-4 w-4 mr-2" />}
-                    {theme === "dark" ? t.header.lightMode : t.header.darkMode}
+                    {theme === "dark" ? t.lightMode : t.darkMode}
                   </Button>
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium">{t.header.language}</div>
+                  <div className="text-base font-medium">{t.language}</div>
                   <div className="language-selector mt-1">
-                    <select 
+                    <select
                       className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md bg-background"
-                      value={language}
-                      onChange={(e) => setLanguage(e.target.value)}
+                      value={currentLanguage}
+                      onChange={(e) => changeLanguage(e.target.value)}
                     >
                       {languages.map((lang) => (
                         <option key={lang.code} value={lang.code}>

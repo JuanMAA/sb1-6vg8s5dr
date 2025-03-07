@@ -299,6 +299,8 @@ const translations = {
 interface LanguageContextType {
   language: string;
   setLanguage: (lang: string) => void;
+  setCountries: (countries: any[]) => void;
+  countries: any[]; 
   t: typeof translations["en"]; // Traducciones dinámicas
 }
 
@@ -310,6 +312,8 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     return typeof window !== "undefined" ? localStorage.getItem("preferredLanguage") || "es" : "es";
   });
 
+  const [countries, setCountries] = useState<any[]>([]);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       localStorage.setItem("preferredLanguage", language);
@@ -320,7 +324,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
   const t = translations[language as keyof typeof translations] || translations.es;
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ countries, setCountries, language, setLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

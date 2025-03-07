@@ -90,7 +90,7 @@ export default function CountrySelector() {
   );
 
   if (loading) {
-    return <div className="text-center py-4">Loading countries...</div>;
+    return <div className="text-center py-4">Cargando países...</div>;
   }
 
   if (error) {

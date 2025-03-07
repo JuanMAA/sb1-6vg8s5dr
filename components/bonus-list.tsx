@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -32,10 +33,13 @@ type Bonus = {
 type BonusListProps = {
   type?: string;
   limit?: number;
+  bonusesData: Bonus[]
 };
 
-export default function BonusList({ type = "all", limit }: BonusListProps) {
-  const [bonuses, setBonuses] = useState<Bonus[]>([]);
+export default function BonusList({ type = "all", bonusesData, limit }: BonusListProps) {
+  const searchParams = useSearchParams();
+  const [bonuses, setBonuses] = useState<Bonus[]>(bonusesData);
+  const [filteredBonuses, setFilteredBonuses] = useState<Bonus[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
@@ -44,12 +48,11 @@ export default function BonusList({ type = "all", limit }: BonusListProps) {
     async function loadBonuses() {
       try {
         setLoading(true);
-        const data = await getBonuses(type);
         
         if (limit) {
-          setBonuses(data.slice(0, limit));
+          setBonuses(bonusesData.slice(0, limit));
         } else {
-          setBonuses(data);
+          setBonuses(bonusesData);
         }
       } catch (err) {
         console.error("Error loading bonuses:", err);
@@ -62,6 +65,64 @@ export default function BonusList({ type = "all", limit }: BonusListProps) {
     loadBonuses();
   }, [type, limit]);
 
+  // Apply filters whenever bonuses or search params change
+  useEffect(() => {
+    if (bonuses.length === 0) return;
+    
+    let filtered = [...bonuses];
+    
+    // Get filter values from URL
+    const wageringMin = searchParams.get('wageringMin');
+    const wageringMax = searchParams.get('wageringMax');
+    const depositMin = searchParams.get('depositMin');
+    const depositMax = searchParams.get('depositMax');
+    const isExclusive = searchParams.get('exclusive');
+    const casinos = searchParams.get('casinos');
+    
+    // Apply wagering requirement filter
+    if (wageringMin) {
+      filtered = filtered.filter(bonus => 
+        bonus.wagering_requirement === null || 
+        bonus.wagering_requirement >= parseInt(wageringMin)
+      );
+    }
+    
+    if (wageringMax) {
+      filtered = filtered.filter(bonus => 
+        bonus.wagering_requirement === null || 
+        bonus.wagering_requirement <= parseInt(wageringMax)
+      );
+    }
+    
+    // Apply minimum deposit filter
+    if (depositMin) {
+      filtered = filtered.filter(bonus => 
+        bonus.min_deposit === null || 
+        bonus.min_deposit >= parseInt(depositMin)
+      );
+    }
+    
+    if (depositMax) {
+      filtered = filtered.filter(bonus => 
+        bonus.min_deposit === null || 
+        bonus.min_deposit <= parseInt(depositMax)
+      );
+    }
+    
+    // Apply exclusive filter
+    if (isExclusive === 'true') {
+      filtered = filtered.filter(bonus => bonus.is_exclusive);
+    }
+    
+    // Apply casino filter
+    if (casinos) {
+      const casinoIds = casinos.split(',').map(id => parseInt(id));
+      filtered = filtered.filter(bonus => casinoIds.includes(bonus.casino_id));
+    }
+    
+    setFilteredBonuses(filtered);
+  }, [bonuses, searchParams]);
+
   // Copy bonus code to clipboard
   const copyBonusCode = (code: string) => {
     if (!code) return;
@@ -72,15 +133,20 @@ export default function BonusList({ type = "all", limit }: BonusListProps) {
   };
 
   if (loading) {
-    return <div className="text-center py-8">Loading bonuses...</div>;
+    return <div className="text-center py-8">Cargando bonos...</div>;
   }
 
   if (error) {
     return <div className="text-center py-8 text-red-500">{error}</div>;
   }
 
-  if (bonuses.length === 0) {
-    return <div className="text-center py-8">No bonuses found for this selection.</div>;
+  if (filteredBonuses.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-lg mb-2">No se encontraron bonos para esta selección.</p>
+        <p className="text-muted-foreground">Intenta ajustar tus filtros o seleccionar un tipo de bono diferente.</p>
+      </div>
+    );
   }
 
   // Get icon based on bonus type
@@ -119,7 +185,7 @@ export default function BonusList({ type = "all", limit }: BonusListProps) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {bonuses.map((bonus) => (
+      {filteredBonuses.map((bonus) => (
         <Card key={bonus.id} className="overflow-hidden border modern-card animate-fade-in">
           <CardHeader className="pb-2 bg-gradient-to-r from-primary/5 to-accent/5">
             <div className="flex justify-between items-start">

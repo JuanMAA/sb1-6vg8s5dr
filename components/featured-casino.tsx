@@ -7,15 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Award, Check, ExternalLink, Shield } from "lucide-react";
-import { getFeaturedCasino } from "@/lib/api";
 
 type FeaturedCasinoProps = {
-  countryCode?: string;
   casino: any;
   t: any;
 };
 
-export default function FeaturedCasino({ countryCode, casino, t }: FeaturedCasinoProps) {
+export default function FeaturedCasino({ casino, t }: FeaturedCasinoProps) {
   const [currentMonth] = useState("Mayo 2025");
 
   if (!casino) {

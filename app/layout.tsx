@@ -10,7 +10,7 @@ import { LanguageProvider } from '@/components/language-context';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'TuApuesta - Información sobre apuestas a nivel mundial',
+  title: process.env.NEXT_PUBLIC_SITE_NAME + ' - Información sobre apuestas a nivel mundial',
   description: 'Información completa sobre apuestas deportivas, casinos online y regulaciones legales en todo el mundo.',
 };
 

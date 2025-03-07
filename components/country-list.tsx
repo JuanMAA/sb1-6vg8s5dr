@@ -42,11 +42,11 @@ export default function CountryList() {
   );
 
   if (loading) {
-    return <div className="text-center py-8">Loading countries...</div>;
+    return <div className="text-center py-4">Cargando países...</div>;
   }
 
   if (error) {
-    return <div className="text-center py-8 text-red-500">{error}</div>;
+    return <div className="text-center py-4 text-red-500">{error}</div>;
   }
 
   return (
@@ -55,7 +55,7 @@ export default function CountryList() {
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
         <Input
           type="text"
-          placeholder="Search for your country..."
+          placeholder="Buscar país..."
           className="pl-10 border-2 focus:border-primary"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -77,7 +77,7 @@ export default function CountryList() {
           
           {filteredCountries.length === 0 && (
             <div className="col-span-full text-center py-8 text-muted-foreground animate-fade-in">
-              No countries found matching "{searchTerm}"
+              No se encontraron países que coincidan con "{searchTerm}"
             </div>
           )}
         </div>
