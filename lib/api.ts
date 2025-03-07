@@ -196,7 +196,7 @@ export async function getLicenses() {
   }
 }
 
-export async function getLicenseById(id: string) {
+export async function getLicenseById(id: any) {
   try {
     const { data, error } = await supabase
       .from('licenses')
