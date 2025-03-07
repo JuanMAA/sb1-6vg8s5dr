@@ -403,7 +403,7 @@ export default function TopRankedCasinos() {
               
               <div className="text-center mt-6 animate-fade-in">
                 <Button asChild variant="outline" className="border-2 hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10">
-                  <Link href={`/rankings/${selectedCountry}`}>
+                  <Link href={`/ranking/${selectedCountry}`}>
                     {t.viewAll} {countries.find(c => c.id === selectedCountry)?.name} {t.bettingSites}
                   </Link>
                 </Button>

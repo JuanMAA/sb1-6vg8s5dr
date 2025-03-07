@@ -10,7 +10,7 @@ import BonusList from "./bonus-list";
 import { useEffect, useState } from "react";
 import { useLanguage } from "./language-context";
 
-export default function Hero({ countryData, countriesData, featuredCasinoData }: any) {
+export default function Hero({ countryData, countriesData, featuredCasinoData, casinosData, bonusesData }: any) {
   const { t, setLanguage, setCountries } = useLanguage();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Hero({ countryData, countriesData, featuredCasinoData }:
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start mb-6">
               <Button asChild size="lg" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
-                <Link href="/rankings" className="flex items-center">
+                <Link href="/ranking" className="flex items-center">
                   <Award className="mr-2 h-5 w-5" />
                   {t.home.rankings}
                 </Link>
@@ -97,18 +97,18 @@ export default function Hero({ countryData, countriesData, featuredCasinoData }:
                 <span className="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center mr-2">1</span>
                 Top Casino Recomendado
               </h3>
-              <CasinoList limit={1} displayStyle="featured" />
+              <CasinoList limit={1} displayStyle="featured" casinosByCountryData={casinosData} />
             </div>
 
             {/* Top 4 Casinos */}
             <div>
               <h3 className="text-xl font-bold mb-4">Otros Casinos Destacados</h3>
-              <CasinoList limit={4} skip={1} displayStyle="compact" />
+              <CasinoList limit={4} skip={1} displayStyle="compact" casinosByCountryData={casinosData} />
             </div>
           </div>
 
           <div className="text-center mt-6">
-            <a href="/rankings" className="text-primary hover:text-primary/80 transition-colors">
+            <a href="/ranking" className="text-primary hover:text-primary/80 transition-colors">
               Ver todas las casas de apuestas →
             </a>
           </div>
@@ -124,7 +124,7 @@ export default function Hero({ countryData, countriesData, featuredCasinoData }:
             {t.home.subtitle}
           </p>
 
-          <BonusList limit={3} />
+          <BonusList limit={3} bonusesData={bonusesData} />
 
           <div className="text-center mt-6">
             <a href="/bonuses" className="text-primary hover:text-primary/80 transition-colors">

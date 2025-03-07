@@ -172,7 +172,7 @@ export default function Header() {
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem hidden>
                 <NavigationMenuTrigger
                   onClick={() => setIsCountryMenuOpen(true)}
                   className="flex items-center"
@@ -221,7 +221,7 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link href="/rankings" legacyBehavior passHref>
+                <Link href="/ranking" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Award className="mr-1 h-4 w-4" />
                     {t.rankings}
@@ -389,7 +389,7 @@ export default function Header() {
               </div>
             </div>
 
-            <Link href="/rankings" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
+            <Link href="/ranking" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Award className="mr-2 h-5 w-5 text-primary" />
               {t.rankings}
             </Link>

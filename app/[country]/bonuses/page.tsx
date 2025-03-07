@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Gift, Percent, Coins, Zap } from "lucide-react";
 import BonusFilters from '@/components/bonus-filters';
 import BonusList from '@/components/bonus-list';
-import { getCountries, getCasinos, getBonuses } from '@/lib/api';
+import { getCountries, getBonuses, getCasinosByCountry } from '@/lib/api';
 
 const bonusTabs = [
   { type: "all", label: "All Bonuses", icon: Gift },
@@ -12,9 +12,9 @@ const bonusTabs = [
   { type: "cashback", label: "Cashback", icon: Percent }
 ];
 
-async function getCasinosData(): Promise<any> {
+async function getCasinosByCountryData(country: string): Promise<any> {
   try {
-    const casinosData = await getCasinos();
+    const casinosData = await getCasinosByCountry(country);
     if (!casinosData) {
       console.error('Error fetching getCasinosData:', casinosData);
     }
@@ -42,7 +42,7 @@ export default async function Bonuses({
   params: { country: string };
 }) {
   
-  const { casinosData } = await getCasinosData();
+  const { casinosData } = await getCasinosByCountryData(params.country);
   const { bonusesData } = await getBonusessData();
 
   return (

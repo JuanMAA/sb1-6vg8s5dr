@@ -10,39 +10,37 @@ import CountrySelector from "@/components/country-selector";
 export default function LegalInfoPage() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Online Casino Legal Information</h1>
+      <div className="text-center mb-8 animate-fade-in">
+        <h1 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+        Online Casino Legal Information
+        </h1>
         <p className="text-muted-foreground max-w-2xl mx-auto">
-          Comprehensive legal information about online gambling regulations, licensing requirements, and player protections across different countries.
+        Comprehensive legal information about online gambling regulations, licensing requirements, and player protections across different countries.
         </p>
       </div>
-      
+
       <Tabs defaultValue="by-country" className="w-full mb-12">
-        <TabsList className="grid w-full grid-cols-3 bg-background/50 backdrop-blur-sm p-1">
-          <TabsTrigger 
-            value="by-country"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-accent/80 data-[state=active]:text-white"
-          >
-            By Country
-          </TabsTrigger>
-          <TabsTrigger 
-            value="licensing"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-accent/80 data-[state=active]:text-white"
-          >
-            Licensing Authorities
-          </TabsTrigger>
-          <TabsTrigger 
-            value="responsible"
-            className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary/80 data-[state=active]:to-accent/80 data-[state=active]:text-white"
-          >
-            Responsible Gambling
-          </TabsTrigger>
-        </TabsList>
-        
+        <div className="flex justify-center mb-6 overflow-x-auto pb-2">
+          <TabsList>
+            <TabsTrigger
+              value="by-country">
+              By Country
+            </TabsTrigger>
+            <TabsTrigger
+              value="licensing">
+              Licensing Authorities
+            </TabsTrigger>
+            <TabsTrigger
+              value="responsible">
+              Responsible Gambling
+            </TabsTrigger>
+          </TabsList>
+        </div>
+
         <TabsContent value="by-country" className="mt-6">
           <CountrySelector />
         </TabsContent>
-        
+
         <TabsContent value="licensing" className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="border animated-gradient-border card-hover">
@@ -69,7 +67,7 @@ export default function LegalInfoPage() {
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card className="border animated-gradient-border card-hover">
               <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
                 <CardTitle className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Malta Gaming Authority (MGA)</CardTitle>
@@ -94,7 +92,7 @@ export default function LegalInfoPage() {
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card className="border animated-gradient-border card-hover">
               <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
                 <CardTitle className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Gibraltar Regulatory Authority</CardTitle>
@@ -119,7 +117,7 @@ export default function LegalInfoPage() {
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card className="border animated-gradient-border card-hover">
               <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
                 <CardTitle className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Alderney Gambling Control Commission</CardTitle>
@@ -144,7 +142,7 @@ export default function LegalInfoPage() {
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card className="border animated-gradient-border card-hover">
               <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
                 <CardTitle className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Kahnawake Gaming Commission</CardTitle>
@@ -169,7 +167,7 @@ export default function LegalInfoPage() {
                 </Button>
               </CardContent>
             </Card>
-            
+
             <Card className="border animated-gradient-border card-hover">
               <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
                 <CardTitle className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Curaçao eGaming</CardTitle>
@@ -198,7 +196,7 @@ export default function LegalInfoPage() {
             </Card>
           </div>
         </TabsContent>
-        
+
         <TabsContent value="responsible" className="mt-6">
           <Card className="mb-8 border animated-gradient-border">
             <CardHeader className="bg-gradient-to-r from-primary/5 to-accent/5">
@@ -210,7 +208,7 @@ export default function LegalInfoPage() {
                 <p>
                   Responsible gambling means enjoying gambling as entertainment while being aware of the risks and making informed choices. Here are some important guidelines to follow:
                 </p>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Set Limits</h3>
                 <ul className="list-disc pl-5 space-y-1 mb-4">
                   <li>Decide how much money you can afford to lose before you start playing</li>
@@ -218,7 +216,7 @@ export default function LegalInfoPage() {
                   <li>Use deposit limits offered by online casinos</li>
                   <li>Never chase losses by betting more than you can afford</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Know the Games</h3>
                 <ul className="list-disc pl-5 space-y-1 mb-4">
                   <li>Understand the rules and odds of the games you play</li>
@@ -226,7 +224,7 @@ export default function LegalInfoPage() {
                   <li>Accept that the house always has an edge</li>
                   <li>View gambling as entertainment, not as a way to make money</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Be Aware of Warning Signs</h3>
                 <ul className="list-disc pl-5 space-y-1 mb-4">
                   <li>Gambling to escape problems or relieve feelings of helplessness, guilt, or depression</li>
@@ -235,7 +233,7 @@ export default function LegalInfoPage() {
                   <li>Neglecting work, education, or family commitments due to gambling</li>
                   <li>Feeling irritable or restless when trying to cut down on gambling</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Use Available Tools</h3>
                 <ul className="list-disc pl-5 space-y-1 mb-4">
                   <li>Self-exclusion programs allow you to block yourself from gambling sites</li>
@@ -243,10 +241,10 @@ export default function LegalInfoPage() {
                   <li>Take regular breaks from gambling</li>
                   <li>Use gambling blocking software on your devices</li>
                 </ul>
-                
+
                 <h3 className="text-xl font-semibold mt-6 mb-3 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Seek Help When Needed</h3>
                 <p>If you're concerned about your gambling habits or those of someone close to you, help is available:</p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                   <Card className="border">
                     <CardHeader>
@@ -260,7 +258,7 @@ export default function LegalInfoPage() {
                       </ul>
                     </CardContent>
                   </Card>
-                  
+
                   <Card className="border">
                     <CardHeader>
                       <CardTitle className="text-lg">Self-Exclusion Programs</CardTitle>
@@ -277,7 +275,7 @@ export default function LegalInfoPage() {
               </div>
             </CardContent>
           </Card>
-          
+
           <div className="text-center">
             <h3 className="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Remember</h3>
             <p className="text-lg mb-6">Gambling should be fun and entertaining. If it stops being enjoyable, it's time to take a break.</p>

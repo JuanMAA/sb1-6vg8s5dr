@@ -11,7 +11,6 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Filter, X, ChevronDown, Star } from "lucide-react";
-import { getCasinos } from "@/lib/api";
 
 type BonusFiltersProps = {
   type: string;
@@ -371,7 +370,7 @@ export default function BonusFilters({ type, casinosData }: BonusFiltersProps) {
                 <div>
                   <h3 className="text-sm font-medium mb-2">Casinos</h3>
                   <div className="grid grid-cols-2 gap-2 max-h-[180px] overflow-y-auto pr-2">
-                    {[casinosData]?.map(casino => (
+                    {casinosData?.map(casino => (
                       <div key={casino.id} className="flex items-center space-x-2">
                         <Checkbox
                           id={`casino-${casino.id}`}

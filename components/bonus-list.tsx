@@ -40,15 +40,12 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
   const searchParams = useSearchParams();
   const [bonuses, setBonuses] = useState<Bonus[]>(bonusesData);
   const [filteredBonuses, setFilteredBonuses] = useState<Bonus[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadBonuses() {
-      try {
-        setLoading(true);
-        
+      try {        
         if (limit) {
           setBonuses(bonusesData.slice(0, limit));
         } else {
@@ -57,8 +54,6 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
       } catch (err) {
         console.error("Error loading bonuses:", err);
         setError("Failed to load bonuses. Please try again later.");
-      } finally {
-        setLoading(false);
       }
     }
     
@@ -67,9 +62,9 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
 
   // Apply filters whenever bonuses or search params change
   useEffect(() => {
-    if (bonuses.length === 0) return;
+    if (bonuses && bonuses?.length === 0) return;
     
-    let filtered = [...bonuses];
+    let filtered = [...bonuses ?? []];
     
     // Get filter values from URL
     const wageringMin = searchParams.get('wageringMin');
@@ -132,17 +127,13 @@ export default function BonusList({ type = "all", bonusesData, limit }: BonusLis
     setTimeout(() => setCopiedCode(null), 2000);
   };
 
-  if (loading) {
-    return <div className="text-center py-8">Cargando bonos...</div>;
-  }
-
   if (error) {
     return <div className="text-center py-8 text-red-500">{error}</div>;
   }
 
   if (filteredBonuses.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-8 hidden">
         <p className="text-lg mb-2">No se encontraron bonos para esta selección.</p>
         <p className="text-muted-foreground">Intenta ajustar tus filtros o seleccionar un tipo de bono diferente.</p>
       </div>

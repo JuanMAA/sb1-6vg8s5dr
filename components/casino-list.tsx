@@ -33,6 +33,7 @@ type CasinoListProps = {
   skip?: number;
   highlightFirst?: boolean;
   displayStyle?: 'standard' | 'featured' | 'compact';
+  casinosByCountryData: Casino[]
 };
 
 export default function CasinoList({ 
@@ -40,18 +41,17 @@ export default function CasinoList({
   limit, 
   skip = 0,
   highlightFirst = false,
-  displayStyle = 'standard'
+  displayStyle = 'standard',
+  casinosByCountryData
 }: CasinoListProps) {
   const searchParams = useSearchParams();
   const [casinos, setCasinos] = useState<Casino[]>([]);
   const [filteredCasinos, setFilteredCasinos] = useState<Casino[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadCasinos() {
       try {
-        setLoading(true);
         let data;
         
         if (countryCode === "global") {
@@ -64,8 +64,6 @@ export default function CasinoList({
       } catch (err) {
         console.error("Error loading casinos:", err);
         setError("Failed to load casinos. Please try again later.");
-      } finally {
-        setLoading(false);
       }
     }
     
@@ -121,9 +119,6 @@ export default function CasinoList({
     setFilteredCasinos(filtered);
   }, [casinos, searchParams, skip, limit]);
 
-  if (loading) {
-    return <div className="text-center py-8">Cargando casinos...</div>;
-  }
 
   if (error) {
     return <div className="text-center py-8 text-red-500">{error}</div>;
@@ -131,7 +126,7 @@ export default function CasinoList({
 
   if (filteredCasinos.length === 0) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-8" hidden>
         <p className="text-lg mb-2">No se encontraron casinos para esta selección.</p>
         <p className="text-muted-foreground">Intenta ajustar tus filtros o seleccionar un país diferente.</p>
       </div>

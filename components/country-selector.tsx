@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -49,8 +49,7 @@ export default function CountrySelector() {
   const [animateCards, setAnimateCards] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // Get language from localStorage if available
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedLanguage = localStorage.getItem('preferredLanguage');
@@ -58,55 +57,61 @@ export default function CountrySelector() {
         setCurrentLanguage(savedLanguage);
       }
     }
-    
-    // Add animation after initial render
-    setTimeout(() => {
-      setAnimateCards(true);
-    }, 100);
+    setTimeout(() => setAnimateCards(true), 100);
   }, []);
-  
-  // Load countries from API
-  useEffect(() => {
-    async function loadCountries() {
-      try {
-        setLoading(true);
-        const data = await getCountries();
-        setCountries(data);
-      } catch (err) {
-        console.error("Error loading countries:", err);
-        setError("Failed to load countries. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
+
+  const loadCountries = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await getCountries();
+      setCountries(data);
+      setError(null);
+    } catch (err) {
+      console.error("Error loading countries:", err);
+      setError("Failed to load countries. Please try again later.");
+    } finally {
+      setLoading(false);
     }
-    
-    loadCountries();
   }, []);
-  
+
+  useEffect(() => {
+    loadCountries();
+  }, [loadCountries]);
+
   const t = translations[currentLanguage as keyof typeof translations];
-  
-  const filteredCountries = countries.filter(country => 
+
+  const filteredCountries = countries.filter((country) =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (loading) {
-    return <div className="text-center py-4">Cargando países...</div>;
+    return (
+      <div className="text-center py-4">
+        <p>Cargando países...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-center py-4 text-red-500">{error}</div>;
+    return (
+      <div className="text-center py-4 text-red-500">
+        <p>{error}</p>
+      </div>
+    );
   }
 
   return (
-    <section className="py-16 bg-gradient-to-r from-primary/5 to-accent/5">
+    <section className="to-accent/5">
       <div className="container">
         <div className="text-center mb-8 animate-fade-in">
-          <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{t.title}</h2>
+          <h2 className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+            {t.title}
+          </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             {t.description}
           </p>
         </div>
-        
+
         <div className="max-w-md mx-auto mb-8 relative animate-fade-in">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
@@ -115,31 +120,34 @@ export default function CountrySelector() {
             className="pl-10 border-2 focus:border-primary"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            aria-label={t.searchPlaceholder}
           />
         </div>
-        
-        <Card className="border shadow-sm animate-slide-up">
+
+        <Card className="border shadow-sm border modern-card">
           <CardContent className="p-4">
-            <ScrollArea className="h-[400px] pr-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <ScrollArea>
+              <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {filteredCountries.map((country, index) => (
-                  <Link 
-                    key={country.id}
-                    href={`/countries/${country.code}`}
-                    className={`country-card flex items-center p-4 rounded-md hover:bg-primary/10 transition-colors card-hover ${animateCards ? 'animate-fade-in' : 'opacity-0'}`}
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    <span className="text-3xl mr-3">{country.flag_emoji}</span>
-                    <span className="font-medium">{country.name}</span>
-                  </Link>
+                  <li key={country.id}>
+                    <Link
+                      href={`/countries/${country.code}`}
+                      className={`flex items-center p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 hover:bg-primary/5 card-hover ${animateCards ? "animate-fade-in" : "opacity-0"
+                        }`}
+                      style={{ animationDelay: `${index * 50}ms` }}
+                    >
+                      <span className="text-4xl mr-4">{country.flag_emoji}</span>
+                      <span className="font-medium">{country.name}</span>
+                    </Link>
+                  </li>
                 ))}
-                
+
                 {filteredCountries.length === 0 && (
-                  <div className="col-span-full text-center py-8 text-muted-foreground animate-fade-in">
+                  <li className="col-span-full text-center py-8 text-muted-foreground animate-fade-in">
                     {t.noResults} "{searchTerm}"
-                  </div>
+                  </li>
                 )}
-              </div>
+              </ul>
             </ScrollArea>
           </CardContent>
         </Card>
