@@ -7,13 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Award, Check, ExternalLink, Shield } from "lucide-react";
+import { useLanguage } from "./language-context";
 
 type FeaturedCasinoProps = {
   casino: any;
   t: any;
 };
 
-export default function FeaturedCasino({ casino, t }: FeaturedCasinoProps) {
+export default function FeaturedCasino({ casino }: FeaturedCasinoProps) {
+  const { t } = useLanguage();
+
   const [currentMonth] = useState("Mayo 2025");
 
   if (!casino) {
@@ -27,10 +30,10 @@ export default function FeaturedCasino({ casino, t }: FeaturedCasinoProps) {
   }
 
   const features = [
-    { condition: casino.has_mobile_app, label: t.features.mobileApp },
-    { condition: casino.has_live_streaming, label: t.features.liveStreaming },
-    { condition: casino.has_cash_out, label: t.features.cashOut },
-    { condition: casino.has_live_betting, label: t.features.liveBetting }
+    { condition: casino.has_mobile_app, label: t.featuredCasino.features.mobileApp },
+    { condition: casino.has_live_streaming, label: t.featuredCasino.features.liveStreaming },
+    { condition: casino.has_cash_out, label: t.featuredCasino.features.cashOut },
+    { condition: casino.has_live_betting, label: t.featuredCasino.features.liveBetting }
   ];
 
   return (
@@ -38,7 +41,7 @@ export default function FeaturedCasino({ casino, t }: FeaturedCasinoProps) {
       <CardHeader className="pb-2 bg-gradient-to-r from-primary/5 to-accent/5">
         <div className="flex justify-between items-start">
           <div>
-            <Badge variant="outline" className="mb-2 bg-blue-100 text-primary text-xs">{t.by} {process.env.NEXT_PUBLIC_SITE_NAME}</Badge>
+            <Badge variant="outline" className="mb-2 bg-blue-100 text-primary text-xs">{t.featuredCasino.by} {process.env.NEXT_PUBLIC_SITE_NAME}</Badge>
             <CardTitle className="text-xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">{casino.name}</CardTitle>
             <CardDescription className="line-clamp-2 pb-8">{casino.description}</CardDescription>
           </div>
@@ -84,7 +87,7 @@ export default function FeaturedCasino({ casino, t }: FeaturedCasinoProps) {
       <CardFooter className="pt-2">
         <Button asChild className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
           <Link href={casino.website_url} target="_blank" rel="noopener noreferrer">
-            {t.visitSite} <ExternalLink className="ml-2 h-4 w-4" />
+            {t.featuredCasino.visitSite} <ExternalLink className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       </CardFooter>

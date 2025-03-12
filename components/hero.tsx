@@ -14,11 +14,11 @@ export default function Hero({ countryData, countriesData, featuredCasinoData, c
   const { t, setLanguage, setCountries } = useLanguage();
 
   useEffect(() => {
-    setLanguage(countryData?.default_language);
+    //setLanguage(countryData?.default_language);
   }, [countryData]);
 
   useEffect(() => {
-    setCountries(countriesData);
+    //setCountries(countriesData);
   }, []);
 
   return (
@@ -84,9 +84,11 @@ export default function Hero({ countryData, countriesData, featuredCasinoData, c
       <section className="container mx-auto from-primary/5 to-accent/5">
         <div className="container">
           <div className="text-center mb-6 animate-fade-in">
-            <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Casas de Apuestas Mejor Clasificadas</h2>
+            <h2 className="text-2xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+              {t.topRanked.title}
+            </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto text-sm">
-              Nuestros expertos han revisado cientos de casas de apuestas para ofrecerte las mejores opciones disponibles.
+              {t.topRanked.description}
             </p>
           </div>
 
@@ -95,21 +97,23 @@ export default function Hero({ countryData, countriesData, featuredCasinoData, c
             <div>
               <h3 className="text-xl font-bold mb-4 flex items-center">
                 <span className="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center mr-2">1</span>
-                Top Casino Recomendado
-              </h3>
+                {t.topRanked.viewAllBettingSites}
+                </h3>
               <CasinoList limit={1} displayStyle="featured" casinosByCountryData={casinosData} />
             </div>
 
             {/* Top 4 Casinos */}
             <div>
-              <h3 className="text-xl font-bold mb-4">Otros Casinos Destacados</h3>
+              <h3 className="text-xl font-bold mb-4">
+                {t.topRanked.otherCasinos}
+              </h3>
               <CasinoList limit={4} skip={1} displayStyle="compact" casinosByCountryData={casinosData} />
             </div>
           </div>
 
           <div className="text-center mt-6">
             <a href="/ranking" className="text-primary hover:text-primary/80 transition-colors">
-              Ver todas las casas de apuestas →
+              {t.topRanked.viewAllBettingSites}
             </a>
           </div>
         </div>

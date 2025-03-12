@@ -23,6 +23,7 @@ import {
     Lock
 } from "lucide-react";
 import { getCasinoDetails, getCasinos } from "@/lib/api";
+import { useLanguage } from "@/components/language-context";
 
 async function getCasinoData(slug: string): Promise<any> {
     try {
@@ -42,6 +43,7 @@ export default async function CasinoDetailPage({
     params: { slug: string };
 }) {
     const { casinoData } = await getCasinoData(params.slug);
+    const { t } = useLanguage();
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -78,7 +80,7 @@ export default async function CasinoDetailPage({
 
                         <CardContent className="p-4">
                             <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-3 rounded-lg mb-4">
-                                <p className="text-center font-semibold">Bono de Bienvenida Disponible</p>
+                                <p className="text-center font-semibold">{t.featuredCasino.welcomeBonus}</p>
                             </div>
 
                             <div className="space-y-4">
@@ -90,7 +92,7 @@ export default async function CasinoDetailPage({
                                                 <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center mr-2">
                                                     <Check className="h-3 w-3 text-white" />
                                                 </div>
-                                                <span className="text-sm">App Móvil</span>
+                                                <span className="text-sm">{t.featuredCasino.features.mobileApp}</span>
                                             </div>
                                         )}
                                         {casinoData.has_live_streaming && (
@@ -98,7 +100,7 @@ export default async function CasinoDetailPage({
                                                 <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center mr-2">
                                                     <Check className="h-3 w-3 text-white" />
                                                 </div>
-                                                <span className="text-sm">Streaming en Vivo</span>
+                                                <span className="text-sm">{t.featuredCasino.features.liveStreaming}</span>
                                             </div>
                                         )}
                                         {casinoData.has_cash_out && (
@@ -106,7 +108,7 @@ export default async function CasinoDetailPage({
                                                 <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center mr-2">
                                                     <Check className="h-3 w-3 text-white" />
                                                 </div>
-                                                <span className="text-sm">Cash Out</span>
+                                                <span className="text-sm">{t.featuredCasino.features.cashOut}</span>
                                             </div>
                                         )}
                                         {casinoData.has_live_betting && (
@@ -114,21 +116,21 @@ export default async function CasinoDetailPage({
                                                 <div className="h-5 w-5 rounded-full bg-primary flex items-center justify-center mr-2">
                                                     <Check className="h-3 w-3 text-white" />
                                                 </div>
-                                                <span className="text-sm">Apuestas en Vivo</span>
+                                                <span className="text-sm">{t.featuredCasino.features.liveBetting}</span>
                                             </div>
                                         )}
                                     </div>
                                 </div>
 
                                 <div>
-                                    <h4 className="font-medium text-sm mb-2">Información de Pagos:</h4>
+                                    <h4 className="font-medium text-sm mb-2"> {t.global.paymentInformation}</h4>
                                     <div className="space-y-2">
                                         <div>
-                                            <p className="text-sm text-muted-foreground">Depósito mínimo:</p>
+                                            <p className="text-sm text-muted-foreground">{t.global.minimunDeposit}</p>
                                             <p className="font-medium">{casinoData.min_deposit ? `${casinoData.min_deposit}€` : "No especificado"}</p>
                                         </div>
                                         <div>
-                                            <p className="text-sm text-muted-foreground">Tiempo de retiro:</p>
+                                            <p className="text-sm text-muted-foreground">{t.global.withdrawalTime}</p>
                                             <p className="font-medium">{casinoData.withdrawal_time || "No especificado"}</p>
                                         </div>
                                     </div>
@@ -139,7 +141,7 @@ export default async function CasinoDetailPage({
                         <CardFooter className="p-4 pt-0">
                             <Button asChild className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
                                 <Link href={casinoData.website_url} target="_blank" rel="noopener noreferrer">
-                                    Visitar Sitio <ExternalLink className="ml-2 h-4 w-4" />
+                                    {t.topRanked.visitSite} <ExternalLink className="ml-2 h-4 w-4" />
                                 </Link>
                             </Button>
                         </CardFooter>

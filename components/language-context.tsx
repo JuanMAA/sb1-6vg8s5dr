@@ -2,6 +2,34 @@
 import { createContext, useContext, useEffect, useState } from "react";
 const translations = {
   "en": {
+    "topRanked": {
+      title: "Top Ranked Betting Sites",
+      description: "Our experts have reviewed hundreds of betting sites to bring you the best options available in your region.",
+      welcomeBonus: "Welcome Bonus:",
+      features: "Features:",
+      readReview: "Read Review",
+      visitSite: "Visit Site",
+      viewAll: "View All",
+      bettingSites: "Betting Sites",
+      licensing: "Licensing:",
+      licenseNumber: "License #:",
+      userReviews: "User Reviews:",
+      positiveRating: "Positive Rating:",
+      topRecommended: "Top Recommended Casino",
+      otherCasinos: "Other Recommended Casinos",
+      viewAllBettingSites: "View all betting sites →",
+    },
+    "global": {
+      "withdrawalTime": "Withdrawal Time",
+      "minimunDeposit": "Minimum Deposit",
+      "welcomeBonus": "Welcome Bonus",
+      "bettingSites": "Betting Sites",
+      "licensing": "Licensing",
+      "userReviews": "User Reviews",
+      "positiveRating": "Positive Rating",
+      "paymentInformation": "Payment Information",
+      "details": "Details"
+    },
     "home": {
       "title": "Betting Information",
       "subtitle": "Your complete guide to betting houses, bonuses, and legal regulations.",
@@ -14,20 +42,21 @@ const translations = {
       "description": "Complete guide to betting houses, bonuses, and legal regulations",
     },
     "header": {
-      "home": "Home",
-      "countries": "Countries",
-      "rankings": "Rankings",
-      "bonuses": "Bonuses",
-      "legalInfo": "Legal Info",
-      "contact": "Contact",
-      "terms": "Terms & Conditions",
-      "language": "Language",
-      "darkMode": "Dark Mode",
-      "lightMode": "Light Mode",
-      "casinoOfTheMonth": "Casino of the Month",
-      "comparators": "Comparators",
-      "casinoComparator": "Casino Comparator",
-      "licenseComparator": "License Comparator"
+      home: "Home",
+      countries: "Countries",
+      rankings: "Rankings",
+      bonuses: "Bonuses",
+      legalInfo: "Legal Info",
+      contact: "Contact",
+      terms: "Terms & Conditions",
+      language: "Language",
+      darkMode: "Dark Mode",
+      lightMode: "Light Mode",
+      casinoOfTheMonth: "Casino of the Month",
+      comparators: "Comparators",
+      casinoComparator: "Casino Comparator",
+      licenseComparator: "License Comparator",
+      searchCountry: "Search country...",
     },
     "footer": {
       "about": "Your trusted source for information on sports betting and online casinos worldwide.",
@@ -75,6 +104,34 @@ const translations = {
     }
   },
   "es": {
+    "topRanked": {
+      "title": "Casas de Apuestas Mejor Clasificadas",
+      "description": "Nuestros expertos han revisado cientos de casas de apuestas para ofrecerte las mejores opciones disponibles en tu región.",
+      "welcomeBonus": "Bono de Bienvenida:",
+      "features": "Características:",
+      "readReview": "Leer Reseña",
+      "visitSite": "Visitar Sitio",
+      "viewAll": "Ver Todas",
+      "bettingSites": "Casas de Apuestas",
+      "licensing": "Licencias:",
+      "licenseNumber": "Licencia #:",
+      "userReviews": "Reseñas de Usuarios:",
+      "positiveRating": "Valoración Positiva:",
+      "topRecommended": "Top Casino Recomendado",
+      "otherCasinos": "Otros Casinos Destacados",
+      "viewAllBettingSites": "Ver todas las casas de apuestas →",
+    },
+    "global":{
+      "withdrawalTime": "Tiempo de Retiro",
+      "minimunDeposit": "Depósito Mínimo",
+      "welcomeBonus": "Bono de Bienvenida",
+      "bettingSites": "Casas de Apuestas",
+      "licensing": "Licencias",
+      "userReviews": "Reseñas de Usuarios",
+      "positiveRating": "Valoración Positiva",
+      "paymentInformation": "Información de Pagos:",
+      "details": "Detalles"
+    },
     "home": {
       "title": "Información de Apuestas",
       "subtitle": "Tu guía completa sobre casas de apuestas, bonos y regulaciones legales.",
@@ -87,20 +144,22 @@ const translations = {
       "description": "Guía completa sobre casas de apuestas, bonos y regulaciones legales"
     },
     "header": {
-      "home": "Inicio",
-      "countries": "Países",
-      "rankings": "Clasificaciones",
-      "bonuses": "Bonificaciones",
-      "legalInfo": "Info Legal",
-      "contact": "Contacto",
-      "terms": "Términos y Condiciones",
-      "language": "Idioma",
-      "darkMode": "Modo Oscuro",
-      "lightMode": "Modo Claro",
-      "casinoOfTheMonth": "Casino del Mes",
-      "comparators": "Comparadores",
-      "casinoComparator": "Comparador de Casinos",
-      "licenseComparator": "Comparador de Licencias"
+      home: "Inicio",
+      countries: "Países",
+      rankings: "Clasificaciones",
+      bonuses: "Bonificaciones",
+      legalInfo: "Info Legal",
+      contact: "Contacto",
+      terms: "Términos y Condiciones",
+      language: "Idioma",
+      darkMode: "Modo Oscuro",
+      lightMode: "Modo Claro",
+      casinoOfTheMonth: "Casino del Mes",
+      comparators: "Comparadores",
+      casinoComparator: "Comparador de Casinos",
+      licenseComparator: "Comparador de Licencias",
+      searchCountry: "Buscar país...",
+      casinoComparatorDescription: "Compara las características de los casinos en línea más populares por pais.",
     },
     "footer": {
       "about": "Tu fuente confiable de información sobre apuestas deportivas y casinos online en todo el mundo.",
@@ -148,6 +207,34 @@ const translations = {
     }
   },
   "fr": {
+    "topRanked": {
+      title: "Sites de Paris les Mieux Classés",
+      description: "Nos experts ont examiné des centaines de sites de paris pour vous proposer les meilleures options disponibles dans votre région.",
+      welcomeBonus: "Bonus de Bienvenue:",
+      features: "Caractéristiques:",
+      readReview: "Lire l'Avis",
+      visitSite: "Visiter le Site",
+      viewAll: "Voir Tout",
+      bettingSites: "Sites de Paris",
+      licensing: "Licences:",
+      licenseNumber: "Licence #:",
+      userReviews: "Avis d'Utilisateurs:",
+      positiveRating: "Évaluation Positive:",
+      topRecommended: "Meilleur Casino Recommandé",
+      otherCasinos: "Autres Casinos Recommandés",
+      viewAllBettingSites: "Voir tous les sites de paris →",
+    },
+    "global": {
+      "withdrawalTime": "Temps de Retrait",
+      "minimunDeposit": "Dépôt Minimum",
+      "welcomeBonus": "Bonus de Bienvenue",
+      "bettingSites": "Sites de Paris",
+      "licensing": "Licences",
+      "userReviews": "Avis d'Utilisateurs",
+      "positiveRating": "Évaluation Positive",
+      "paymentInformation": "Informations de Paiement",
+      "details": "Détails"
+    },  
     "home": {
       "title": "Informations sur les paris",
       "subtitle": "Votre guide complet sur les maisons de paris, les bonus et les réglementations légales.",
@@ -160,20 +247,21 @@ const translations = {
       "description": "Guía completa sobre casas de apuestas, bonos y regulaciones legales"
     },
     "header": {
-      "home": "Accueil",
-      "countries": "Pays",
-      "rankings": "Classements",
-      "bonuses": "Bonus",
-      "legalInfo": "Info Légale",
-      "contact": "Contact",
-      "terms": "Termes et Conditions",
-      "language": "Langue",
-      "darkMode": "Mode Sombre",
-      "lightMode": "Mode Clair",
-      "casinoOfTheMonth": "Casino du Mois",
-      "comparators": "Comparateurs",
-      "casinoComparator": "Comparateur de Casinos",
-      "licenseComparator": "Comparateur de Licences"
+      home: "Accueil",
+      countries: "Pays",
+      rankings: "Classements",
+      bonuses: "Bonus",
+      legalInfo: "Info Légale",
+      contact: "Contact",
+      terms: "Termes et Conditions",
+      language: "Langue",
+      darkMode: "Mode Sombre",
+      lightMode: "Mode Clair",
+      casinoOfTheMonth: "Casino du Mois",
+      comparators: "Comparateurs",
+      casinoComparator: "Comparateur de Casinos",
+      licenseComparator: "Comparateur de Licences",
+      searchCountry: "Rechercher un pays..."
     },
     "footer": {
       "about": "Votre source fiable d'informations sur les paris sportifs et les casinos en ligne dans le monde entier.",
@@ -221,6 +309,34 @@ const translations = {
     }
   },
   "de": {
+    "topRanked": {
+      title: "Bestbewertete Wettanbieter",
+      description: "Unsere Experten haben Hunderte von Wettanbietern bewertet, um Ihnen die besten Optionen in Ihrer Region zu präsentieren.",
+      welcomeBonus: "Willkommensbonus:",
+      features: "Funktionen:",
+      readReview: "Bewertung Lesen",
+      visitSite: "Website Besuchen",
+      viewAll: "Alle Anzeigen",
+      bettingSites: "Wettanbieter",
+      licensing: "Lizenzen:",
+      licenseNumber: "Lizenz #:",
+      userReviews: "Benutzerbewertungen:",
+      positiveRating: "Positive Bewertung:",
+      topRecommended: "Top Empfohlenes Casino",
+      otherCasinos: "Andere Empfohlene Casinos",
+      viewAllBettingSites: "Alle Wettanbieter anzeigen →",
+    },
+    "global": {
+      "withdrawalTime": "Auszahlungszeit",
+      "minimunDeposit": "Mindesteinzahlung",
+      "welcomeBonus": "Willkommensbonus",
+      "bettingSites": "Wettanbieter",
+      "licensing": "Lizenzen",
+      "userReviews": "Benutzerbewertungen",
+      "positiveRating": "Positive Bewertung",
+      "paymentInformation": "Zahlungsinformationen",
+      "details": "Details"
+    },
     "home": {
       "title": "Wettinformationen",
       "subtitle": "Ihr vollständiger Leitfaden zu Wettbüros, Boni und gesetzlichen Vorschriften.",
@@ -233,20 +349,21 @@ const translations = {
       "description": "Guía completa sobre casas de apuestas, bonos y regulaciones legales"
     },
     "header": {
-      "home": "Startseite",
-      "countries": "Länder",
-      "rankings": "Ranglisten",
-      "bonuses": "Boni",
-      "legalInfo": "Rechtliche Infos",
-      "contact": "Kontakt",
-      "terms": "Geschäftsbedingungen",
-      "language": "Sprache",
-      "darkMode": "Dunkelmodus",
-      "lightMode": "Hellmodus",
-      "casinoOfTheMonth": "Casino des Monats",
-      "comparators": "Vergleicher",
-      "casinoComparator": "Casino-Vergleicher",
-      "licenseComparator": "Lizenz-Vergleicher"
+      home: "Startseite",
+      countries: "Länder",
+      rankings: "Ranglisten",
+      bonuses: "Boni",
+      legalInfo: "Rechtliche Infos",
+      contact: "Kontakt",
+      terms: "Geschäftsbedingungen",
+      language: "Sprache",
+      darkMode: "Dunkelmodus",
+      lightMode: "Hellmodus",
+      casinoOfTheMonth: "Casino des Monats",
+      comparators: "Vergleicher",
+      casinoComparator: "Casino-Vergleicher",
+      licenseComparator: "Lizenz-Vergleicher",
+      searchCountry: "Land suchen..."
     },
     "footer": {
       "about": "Ihre vertrauenswürdige Quelle für Informationen über Sportwetten und Online-Casinos weltweit.",
@@ -300,7 +417,7 @@ interface LanguageContextType {
   language: string;
   setLanguage: (lang: string) => void;
   setCountries: (countries: any[]) => void;
-  countries: any[]; 
+  countries: any[];
   t: typeof translations["en"]; // Traducciones dinámicas
 }
 

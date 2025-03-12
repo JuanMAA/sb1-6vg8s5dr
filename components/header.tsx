@@ -20,6 +20,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Moon, Sun, Menu, X, Globe, Target, Award, DollarSign, Scale, Contact, BarChart2, Search } from "lucide-react";
+import { useLanguage } from "./language-context";
 
 const languages = [
   { code: "es", name: "Español", flag: "🇪🇸" },
@@ -118,15 +119,15 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isCountryMenuOpen, setIsCountryMenuOpen] = useState(false);
   const countryMenuRef = useRef<HTMLDivElement>(null);
+  const { t, setLanguage } = useLanguage();
 
-  const t = translations[currentLanguage as keyof typeof translations];
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
   const changeLanguage = (langCode: string) => {
-    setCurrentLanguage(langCode);
+    setLanguage(langCode);
     // In a real app, you would implement language switching logic here
     localStorage.setItem('preferredLanguage', langCode);
   };
@@ -168,7 +169,7 @@ export default function Header() {
               <NavigationMenuItem>
                 <Link href="/" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    {t.home}
+                    {t.home.home}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -178,7 +179,7 @@ export default function Header() {
                   className="flex items-center"
                 >
                   <Globe className="mr-1 h-4 w-4" />
-                  {t.countries}
+                  {t.home.countries}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div ref={countryMenuRef} className="w-[400px] p-4 md:w-[500px] lg:w-[600px]">
@@ -186,7 +187,7 @@ export default function Header() {
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <input
                         type="text"
-                        placeholder={t.searchCountry}
+                        placeholder={t.home.searchCountry}
                         className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -224,7 +225,7 @@ export default function Header() {
                 <Link href="/ranking" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Award className="mr-1 h-4 w-4" />
-                    {t.rankings}
+                    {t.home.rankings}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -232,21 +233,21 @@ export default function Header() {
                 <Link href="/bonuses" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <DollarSign className="mr-1 h-4 w-4" />
-                    {t.bonuses}
+                    {t.home.bonuses}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <BarChart2 className="mr-1 h-4 w-4" />
-                  {t.comparators}
+                  {t.home?.comparisons}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4">
                     <li>
                       <Link href="/casino-of-the-month" legacyBehavior passHref>
                         <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">{t.casinoOfTheMonth}</div>
+                          <div className="text-sm font-medium leading-none">{t.header.casinoOfTheMonth}</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                             Casinos destacados por país con análisis detallados
                           </p>
@@ -256,7 +257,7 @@ export default function Header() {
                     <li>
                       <Link href="/comparador/casinos" legacyBehavior passHref>
                         <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">{t.casinoComparator}</div>
+                          <div className="text-sm font-medium leading-none">{t.home.casinoComparator}</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                             Compara características, bonos y más entre diferentes casinos
                           </p>
@@ -266,7 +267,7 @@ export default function Header() {
                     <li>
                       <Link href="/comparador/licencias" legacyBehavior passHref>
                         <NavigationMenuLink className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">{t.licenseComparator}</div>
+                          <div className="text-sm font-medium leading-none">{t.home.licenseComparator}</div>
                           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                             Compara autoridades reguladoras y sus requisitos
                           </p>
@@ -280,7 +281,7 @@ export default function Header() {
                 <Link href="/legal-info" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Scale className="mr-1 h-4 w-4" />
-                    {t.legalInfo}
+                    {t.home.legalInfo}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -288,7 +289,7 @@ export default function Header() {
                 <Link href="/contact" legacyBehavior passHref>
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Contact className="mr-1 h-4 w-4" />
-                    {t.contact}
+                    {t.home.contact}
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
@@ -299,7 +300,7 @@ export default function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="ml-2">
                 <Globe className="h-5 w-5" />
-                <span className="sr-only">{t.language}</span>
+                <span className="sr-only">{t.home.language}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -326,11 +327,11 @@ export default function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 <Sun className="mr-2 h-4 w-4" />
-                {t.lightMode}
+                {t.home.lightMode}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 <Moon className="mr-2 h-4 w-4" />
-                {t.darkMode}
+                {t.home.darkMode}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -350,19 +351,19 @@ export default function Header() {
           <div className="space-y-1 px-4 pb-3 pt-2">
             <Link href="/" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Target className="mr-2 h-5 w-5 text-primary" />
-              {t.home}
+              {t.home.home}
             </Link>
 
             {/* Mobile Countries Dropdown */}
             <div className="py-2">
               <div className="flex items-center text-base font-medium mb-2">
                 <Globe className="mr-2 h-5 w-5 text-primary" />
-                {t.countries}
+                {t.home.countries}
               </div>
               <div className="ml-7 mb-2">
                 <input
                   type="text"
-                  placeholder={t.searchCountry}
+                  placeholder={t.home.searchCountry}
                   className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -391,31 +392,31 @@ export default function Header() {
 
             <Link href="/ranking" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Award className="mr-2 h-5 w-5 text-primary" />
-              {t.rankings}
+              {t.home.rankings}
             </Link>
             <Link href="/bonuses" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <DollarSign className="mr-2 h-5 w-5 text-primary" />
-              {t.bonuses}
+              {t.home.bonuses}
             </Link>
             <Link href="/casino-of-the-month" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Award className="mr-2 h-5 w-5 text-primary" />
-              {t.casinoOfTheMonth}
+              {t.home.casinoOfTheMonth}
             </Link>
             <Link href="/comparador/casinos" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <BarChart2 className="mr-2 h-5 w-5 text-primary" />
-              {t.casinoComparator}
+              {t.home.casinoComparator}
             </Link>
             <Link href="/comparador/licencias" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Scale className="mr-2 h-5 w-5 text-primary" />
-              {t.licenseComparator}
+              {t.home.licenseComparator}
             </Link>
             <Link href="/legal-info" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Scale className="mr-2 h-5 w-5 text-primary" />
-              {t.legalInfo}
+              {t.home.legalInfo}
             </Link>
             <Link href="/contact" className="flex items-center py-2 text-base font-medium" onClick={toggleMobileMenu}>
               <Contact className="mr-2 h-5 w-5 text-primary" />
-              {t.contact}
+              {t.home.contact}
             </Link>
 
             <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
@@ -427,7 +428,7 @@ export default function Header() {
                   </Button>
                 </div>
                 <div className="ml-3">
-                  <div className="text-base font-medium">{t.language}</div>
+                  <div className="text-base font-medium">{t.home.language}</div>
                   <div className="language-selector mt-1">
                     <select
                       className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md bg-background"
